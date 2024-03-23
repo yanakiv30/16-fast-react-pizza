@@ -6,9 +6,10 @@ export default function SearchOrder() {
   const navigate = useNavigate();
 
 function handleSubmit(e) {
-    e.prevent.default();
+    e.preventDefault();
     if(!query) return;
     navigate(`/order/${query}`);
+    console.log(`/order/${query}`)
     setQuery("");
 
 };
