@@ -1,7 +1,7 @@
 import { formatCurrency } from "../../utils/helpers";
 
-function MenuItem({ pizza }) {
-  const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
+function MenuItem( prop ) {
+  const { id, name, unitPrice, ingredients, soldOut, imageUrl } = prop.pizza;
 
   return (
     <li>
