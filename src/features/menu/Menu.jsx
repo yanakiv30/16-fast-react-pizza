@@ -7,7 +7,7 @@ function Menu() {
   return (
     <ul>
       {menu.map((pizza) => (
-        <MenuItem buza={7} pizza={pizza} key={pizza.id} />
+        <MenuItem  pizza={pizza} key={pizza.id} />
       ))}
     </ul>
   );
