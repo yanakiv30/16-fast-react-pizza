@@ -5,7 +5,7 @@ import { updateName } from './userSlice';
 
 function CreateUser() {
   const [username, setUsername] = useState('');
-  const dispatch = useDispatch;
+  const dispatch = useDispatch();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -13,7 +13,7 @@ function CreateUser() {
 
     dispatch(updateName(username));
   }
-  
+
 
   return (
     <form onSubmit={handleSubmit}>
@@ -32,6 +32,7 @@ function CreateUser() {
       {username !== '' && (
         <div>
           <Button type="primary">Start ordering</Button>
+          
         </div>
       )}
     </form>
