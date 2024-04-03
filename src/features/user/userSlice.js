@@ -13,3 +13,6 @@ const userSlice = createSlice({
 // console.log(userSlice);
 export const {updateName}=userSlice.actions;
 export default userSlice.reducer;
+
+export const getTotalCartPrice= (state)=> state.cart.cart
+  .reduce((sum,item)=>sum+item.quantity,0)
