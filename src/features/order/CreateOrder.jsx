@@ -24,6 +24,7 @@ function CreateOrder() {
     satus: addressStatus,
     position,
     address,
+    error: errorAddress,
   } = useSelector((state) => state.user);
   const isLoadingAddres = addressStatus === 'loading';
   const navigation = useNavigation();
@@ -70,21 +71,33 @@ function CreateOrder() {
               type="text"
               name="address"
               disabled={isLoadingAddres}
+              defaultValue={address}
               required
             />
+
+
+
+            
+            {addressStatus==='error' && (
+              <p className="mt-2 rounded-md bg-red-100 p-2 text-xs text-red-700">
+                {errorAddress}
+              </p>
+            )}
           </div>
-          <span className="absolute right-[3px] z-50">
-            <Button
-              disabled={isLoadingAddres}
-              type="small"
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch(fetchAddress());
-              }}
-            >
-              Get Position
-            </Button>
-          </span>
+          {!position.longitude && !position.latitude && (
+            <span className="absolute right-[3px] z-50">
+              <Button
+                disabled={isLoadingAddres}
+                type="small"
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(fetchAddress());
+                }}
+              >
+                Get Position
+              </Button>
+            </span>
+          )}
         </div>
         <div className="mb-12 flex items-center gap-5">
           <input
@@ -102,7 +115,10 @@ function CreateOrder() {
 
         <div>
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <Button disabled={isSubmitting} type="primary">
+          <input  type="hidden" name = 'position' value=
+          {position.longitude&&position.latitude ?
+            `${position.latitude}, ${position.longitude}` : ""}/>
+          <Button disabled={isSubmitting || isLoadingAddres} type="primary">
             {isSubmitting
               ? 'Placing order....'
               : `Order now for ${formatCurrency(totalPrice)}`}
@@ -123,6 +139,8 @@ export async function action({ request }) {
     priority: data.priority === 'true',
   };
 
+console.log(order);
+
   const errors = {};
   if (!isValidPhone(order.phone))
     errors.phone =
@@ -135,6 +153,7 @@ export async function action({ request }) {
   const newOrder = await createOrder(order);
   store.dispatch(clearCart());
   return redirect(`/order/${newOrder.id}`);
+  
 }
 
 export default CreateOrder;
